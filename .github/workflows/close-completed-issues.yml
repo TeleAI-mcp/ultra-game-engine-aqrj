@@ -1,0 +1,17 @@
+name: Close Completed Issues
+
+on:
+  issues:
+    types: [opened, labeled]
+
+jobs:
+  close-issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close issue if labeled as completed
+        if: contains(github.event.issue.labels.*.name, 'completed')
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'close-issue'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
